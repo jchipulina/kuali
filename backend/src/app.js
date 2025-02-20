@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = 5000;
+const port = 5001;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 require('dotenv').config();
 const bearerToken = process.env.BEARER_TOKEN;
-
+console.log("bearerToken "+bearerToken);
 // Conectar a la base de datos
 const dbConfig = {
     host: 'db',

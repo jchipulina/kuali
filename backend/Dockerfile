@@ -8,6 +8,8 @@ COPY . .
 
 RUN npm install
 
-EXPOSE 5000
+RUN mkdir -p /usr/src/app/uploads
+
+EXPOSE 5001
 
 CMD ["node", "src/app.js"]

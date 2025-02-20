@@ -20,7 +20,7 @@ export default function Usuarios() {
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
-                const response = await fetch('http://localhost:5000/usuarios');
+                const response = await fetch('http://localhost:5001/usuarios');
                 const data = await response.json();
                 setUsuarios(data);
             } catch (error) {
@@ -53,7 +53,7 @@ export default function Usuarios() {
                             <td>{usuario.telefono}</td>
                             <td>{usuario.experiencia_laboral}</td>
                             <td>{usuario.estudios}</td>
-                            <td><a href={`http://localhost:5000/uploads/${usuario.cv}`} target="_blank" rel="noopener noreferrer">Ver CV</a></td>
+                            <td><a href={`http://localhost:5001/uploads/${usuario.cv}`} target="_blank" rel="noopener noreferrer">Ver CV</a></td>
                             <td>{new Date(usuario.creacion).toLocaleString()}</td>
                             <td>{usuario.ranking}</td>
                         </tr>

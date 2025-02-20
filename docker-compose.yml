@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: mysql:latest
@@ -18,7 +16,7 @@ services:
       dockerfile: Dockerfile
     container_name: node_backend
     ports:
-      - "5000:5000"
+      - "5001:5001"
     depends_on:
       - db
     environment:

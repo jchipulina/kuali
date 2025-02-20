@@ -24,7 +24,7 @@ export default function Registro() {
 
     const validate = () => {
         let valid = true;
-        let errors = {
+        const errors = {
             nombres: '',
             telefono: '',
             experienciaLaboral: '',
@@ -82,7 +82,7 @@ export default function Registro() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/registrar', {
+            const response = await fetch('http://localhost:5001/registrar', {
                 method: 'POST',
                 body: formDataToSend,
             });
