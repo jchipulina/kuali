@@ -1,0 +1,14 @@
+CREATE DATABASE IF NOT EXISTS kuali;
+USE kuali;
+
+CREATE TABLE IF NOT EXISTS usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombres VARCHAR(500) NOT NULL,
+    telefono VARCHAR(10) NOT NULL,
+    experiencia_laboral TEXT NOT NULL,
+    estudios TEXT NOT NULL,
+    cv VARCHAR(500) NOT NULL,
+    creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ranking INT DEFAULT 0,
+    response TEXT
+);
