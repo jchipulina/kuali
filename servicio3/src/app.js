@@ -1,12 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const multer = require('multer');
 const mysql = require('mysql2/promise');
-const path = require('path');
-
 const app = express();
-const port = 5001;
+const port = 5003;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -40,7 +37,9 @@ async function connectToDatabase() {
         setTimeout(connectToDatabase, 5000); // Intentar reconectar después de 5 segundos
     }
 }
+
 connectToDatabase();
+
 // Middleware para verificar la conexión a la base de datos
 app.use((req, res, next) => {
     if (!connection) {
@@ -49,36 +48,16 @@ app.use((req, res, next) => {
     next();
 });
 
-// Configurar multer para manejar la carga de archivos
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
-    }
-});
-const upload = multer({ storage: storage });
-app.use('/uploads', express.static(path.join(__dirname, '..','uploads')));
-
-// Ruta para recibir los datos del formulario
-app.post('/registrar', upload.single('cv'), async (req, res) => {
-    const { nombres, telefono, experienciaLaboral, estudios } = req.body;
-    const cv = req.file ? req.file.filename : null;
-    console.log('Datos recibidos:', { nombres, telefono, experienciaLaboral, estudios, cv });
+// Ruta para listar usuarios ordenados por ranking
+app.get('/usuarios', async (req, res) => {
     try {
-        const query = 'INSERT INTO usuario (nombres, telefono, experiencia_laboral, estudios, cv) VALUES (?, ?, ?, ?, ?)';
-        const values = [nombres, telefono, experienciaLaboral, estudios, cv];
-        await connection.execute(query, values);
-        const [rows] = await connection.execute('SELECT LAST_INSERT_ID() as id');
-        const id = rows[0].id;
-        res.json({ status: 'OK', id:id, message: 'Formulario recibido con éxito y datos guardados en la base de datos' });
+        const [rows] = await connection.execute('SELECT * FROM usuario ORDER BY ranking DESC');
+        res.json(rows);
     } catch (error) {
-        console.error('Error al guardar los datos en la base de datos:', error);
-        res.status(500).json({ status: 'ERROR', message: 'Error al guardar los datos en la base de datos' });
+        console.error('Error al obtener los usuarios:', error);
+        res.status(500).send('Error al obtener los usuarios');
     }
 });
-
 // Iniciar el servidor
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);

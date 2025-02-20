@@ -88,7 +88,6 @@ export default function Registro() {
             });
             const result = await response.json();
             if(result.status === 'OK'){
-
               setFormData({
                 nombres: '',
                 telefono: '',
@@ -106,7 +105,12 @@ export default function Registro() {
               if (fileInputRef.current) {
                 fileInputRef.current.value = '';
               }
-              alert('Usuario registrado correctamente');
+            const response2 = await fetch('http://localhost:5002/analizar/'+result.id);
+            const result2 = await response2.json();
+            if(result2.status === 'OK'){
+              console.log('CV analizado correctamente');
+            }
+            alert('Usuario registrado correctamente');
             }else{
               alert('Error al registrar el usuario');
             }

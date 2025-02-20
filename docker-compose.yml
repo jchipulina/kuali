@@ -36,3 +36,33 @@ services:
       - backend
     volumes:
       - ./frontend:/usr/src/app
+
+  servicio2:
+    build:
+      context: ./servicio2
+      dockerfile: Dockerfile
+    container_name: node_servicio2
+    ports:
+      - "5002:5002"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: kuali
+
+  servicio3:
+    build:
+      context: ./servicio3
+      dockerfile: Dockerfile
+    container_name: node_servicio3
+    ports:
+      - "5003:5003"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: kuali

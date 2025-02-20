@@ -20,7 +20,7 @@ export default function Usuarios() {
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
-                const response = await fetch('http://localhost:5001/usuarios');
+                const response = await fetch('http://localhost:5003/usuarios');
                 const data = await response.json();
                 setUsuarios(data);
             } catch (error) {
