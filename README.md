@@ -5,7 +5,7 @@ IMPORTANTE:
 
 Copiar .env en el folder /servicio2 (Este es el BEARER TOKEN para consumir el servicio de OPEN AI)
 
-Levantar el docker con :
+Levantar las instancias docker con :
 
 sudo docker-compose up
 
