@@ -8,7 +8,7 @@ COPY . .
 
 RUN npm install
 
-RUN mkdir -p /usr/src/app/uploads
+RUN mkdir -p /usr/src/app/uploads && chmod -R 755 /usr/src/app/uploads
 
 EXPOSE 5001
 

@@ -7,6 +7,7 @@ const axios = require('axios');
 const pdfParse = require('pdf-parse');
 const fs = require('fs');
 const path = require('path');
+const download = require('download');
 
 const app = express();
 const port = 5002;
@@ -77,15 +78,15 @@ app.get('/analizar/:id', async (req, res) => {
 
 
 async function analizar(nombres, telefono, experienciaLaboral, estudios, cv, id) {
-    const cvPath = path.join(__dirname, '..', 'uploads', cv);
     let cvText = '';
     try {
-        const dataBuffer = fs.readFileSync(cvPath);
+        const dataBuffer = await download("http://backend:5001/uploads/" + cv);
         const data = await pdfParse(dataBuffer);
         cvText = data.text;
     } catch (error) {
-        console.error('Error al leer el CV:', error);
+        console.error('Error al leer el CV desde la URL:', error);
     }
+
     const prompt = `
     Analiza la siguiente información del candidato y genera un puntaje de adecuación para el puesto de trabajo y dame como resultado un score de 0 al 100 en este formato #SCORE=XX:
     Nombres: ${nombres}
@@ -94,6 +95,7 @@ async function analizar(nombres, telefono, experienciaLaboral, estudios, cv, id)
     Estudios: ${estudios}
     CV: ${cvText}
     `;
+    console.log(prompt);
     try {
         const response = await axios.post('https://api.openai.com/v1/chat/completions', {
             model: "gpt-4o-mini",
